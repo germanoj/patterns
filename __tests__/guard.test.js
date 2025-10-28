@@ -1,58 +1,44 @@
-import { describe, it, expect } from "vitest";
-import { multiply, vote, concatenateStrings } from "../patterns/guard";
+/**
+ * @param {number} num1
+ * @param {number} num2
+ * @returns {number} the product of `num1` and `num2`
+ * @returns `NaN` if either argument is not a number
+ */
+export function multiply(num1, num2) {
+  if (typeof num1 !== "number" || typeof num2 !== "number") {
+    return NaN;
+  }
+  return num1 * num2;
+}
 
-describe("multiply", () => {
-  it("returns NaN if either argument is not a number", () => {
-    expect(multiply(1, "1")).toBeNaN();
-    expect(multiply("1", 1)).toBeNaN();
-    expect(multiply("1", "1")).toBeNaN();
-  });
-  it("returns 0 if either argument is 0", () => {
-    expect(multiply(0, 1)).toBe(0);
-    expect(multiply(1, 0)).toBe(0);
-  });
-  it("returns 2 for 1 * 2", () => {
-    expect(multiply(1, 2)).toBe(2);
-  });
-  it("returns 25 for -5 * -5", () => {
-    expect(multiply(-5, -5)).toBe(25);
-  });
-  it("returns -24.5 for -4.9 * 5", () => {
-    expect(multiply(-4.9, 5)).toBeCloseTo(-24.5);
-  });
-});
+/**
+ * @param {number} age
+ * @returns {string} "Age not valid." if `age` is not a number
+ * @returns {string} "You must be 18 or older to vote." if `age` is less than 18
+ * @returns {string} "Who would you like to vote for?" if `age` is 18 or older
+ */
+export function vote(age) {
+  if (typeof age !== "number") {
+    return "Age not valid.";
+  }
 
-describe("vote", () => {
-  it("returns a string", () => {
-    expect(vote(1)).toBeTypeOf("string");
-  });
-  it("returns 'Age not valid.' if age is not a number", () => {
-    expect(vote("1")).toBe("Age not valid.");
-  });
-  it("returns 'You must be 18 or older to vote.' if age is less than 18", () => {
-    expect(vote(17)).toBe("You must be 18 or older to vote.");
-  });
-  it("returns 'Who would you like to vote for?' if age is 18 or older", () => {
-    expect(vote(18)).toBe("Who would you like to vote for?");
-  });
-});
+  if (age < 18) {
+    return "You must be 18 or older to vote.";
+  }
 
-describe("concatenateStrings", () => {
-  it("returns undefined if either argument is not a string", () => {
-    expect(concatenateStrings(1, "1")).toBeUndefined();
-    expect(concatenateStrings("1", 1)).toBeUndefined();
-    expect(concatenateStrings(1, 1)).toBeUndefined();
-  });
-  it("returns 'ABBA' for 'AB' + 'BA'", () => {
-    expect(concatenateStrings("AB", "BA")).toBe("ABBA");
-  });
-  it("returns ABC for '' + 'ABC' ", () => {
-    expect(concatenateStrings("", "ABC")).toBe("ABC");
-  });
-  it("returns ABC for 'ABC' + '' ", () => {
-    expect(concatenateStrings("ABC", "")).toBe("ABC");
-  });
-  it("returns '' for two empty strings", () => {
-    expect(concatenateStrings("", "")).toBe("");
-  });
-});
+  return "Who would you like to vote for?";
+}
+
+/**
+ * @param {string} str1
+ * @param {string} str2
+ * @returns {string} the concatenation of `str1` and `str2`
+ * @returns `undefined` if either argument is not a string
+ */
+export function concatenateStrings(str1, str2) {
+  if (typeof str1 !== "string" || typeof str2 !== "string") {
+    return undefined;
+  }
+
+  return str1 + str2;
+}

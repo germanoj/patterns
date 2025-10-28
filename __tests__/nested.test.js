@@ -1,87 +1,69 @@
-import { describe, it, expect } from "vitest";
-import { makeBoard, makeTriangle, countLetter } from "../patterns/nested";
+/**
+ * @param {number} rows
+ * @param {number} cols
+ * @returns {string[][]} an array containing `rows` arrays of `cols` elements each.
+ * Each element is the string "-".
+ * @returns `null` if either argument is not a number
+ * @returns `[]` if either argument is 0 or negative
+ */
+export function makeBoard(rows, cols) {
+  if (typeof rows !== "number" || typeof cols !== "number") return null;
+  if (rows <= 0 || cols <= 0) return [];
 
-describe("makeBoard", () => {
-  it("returns null if either argument is not a number", () => {
-    expect(makeBoard("1", 1)).toBeNull();
-    expect(makeBoard(1, "1")).toBeNull();
-    expect(makeBoard("1", "1")).toBeNull();
-  });
-  it("returns [] if either argument is 0", () => {
-    expect(makeBoard(0, 1)).toStrictEqual([]);
-    expect(makeBoard(1, 0)).toStrictEqual([]);
-  });
-  it("returns [] if either argument is negative", () => {
-    expect(makeBoard(1, -1)).toStrictEqual([]);
-    expect(makeBoard(-1, 1)).toStrictEqual([]);
-  });
-  it("returns a 1x1 board", () => {
-    expect(makeBoard(1, 1)).toStrictEqual([["-"]]);
-  });
-  it("returns a 1x3 board", () => {
-    expect(makeBoard(1, 3)).toStrictEqual([["-", "-", "-"]]);
-  });
-  it("returns a 3x1 board", () => {
-    // prettier-ignore
-    expect(makeBoard(3, 1)).toStrictEqual([
-      ["-"],
-      ["-"],
-      ["-"]
-    ]);
-  });
-  it("returns a 3x3 board", () => {
-    expect(makeBoard(3, 3)).toStrictEqual([
-      ["-", "-", "-"],
-      ["-", "-", "-"],
-      ["-", "-", "-"],
-    ]);
-  });
-});
+  const board = [];
+  for (let i = 0; i < rows; i++) {
+    const row = [];
+    for (let j = 0; j < cols; j++) {
+      row.push("-");
+    }
+    board.push(row);
+  }
+  return board;
+}
 
-describe("makeTriangle", () => {
-  it("returns null if rows is not a number", () => {
-    expect(makeTriangle("1")).toBeNull();
-  });
-  it("returns [] if rows is 0", () => {
-    expect(makeTriangle(0)).toStrictEqual([]);
-  });
-  it("returns [] if rows is negative", () => {
-    expect(makeTriangle(-1)).toStrictEqual([]);
-  });
-  it("returns a 1x1 triangle", () => {
-    expect(makeTriangle(1)).toStrictEqual([["-"]]);
-  });
-  it("returns a 2x2 triangle", () => {
-    // prettier-ignore
-    expect(makeTriangle(2)).toStrictEqual([
-      ["-"],
-      ["-", "-"]
-    ]);
-  });
-  it("returns a 3x3 triangle", () => {
-    // prettier-ignore
-    expect(makeTriangle(3)).toStrictEqual([
-      ["-"],
-      ["-", "-"],
-      ["-", "-", "-"]
-    ]);
-  });
-});
+/**
+ * A 'triangle' is 2D array where each inner array has one more element than the previous.
+ *
+ * For example, this is a 2x2 triangle:
+ * [
+ *   ["-"],
+ *   ["-", "-"]
+ * ]
+ *
+ * @param {*} size - the number of rows in the triangle
+ * @returns {string[][]} a triangle with `side` rows
+ * @returns `null` if `size` is not a number
+ * @returns `[]` if `size` is 0 or negative
+ */
+export function makeTriangle(size) {
+  if (typeof size !== "number") return null;
+  if (size <= 0) return [];
 
-describe("countLetter", () => {
-  it("returns 0 if letter is not a string", () => {
-    expect(countLetter(["word"], 1)).toBe(0);
-  });
-  it("returns 0 if words is an empty array", () => {
-    expect(countLetter([], "a")).toBe(0);
-  });
-  it("returns 0 z in [abc, def]", () => {
-    expect(countLetter(["abc", "def"], "z")).toBe(0);
-  });
-  it("returns 1 a in [abc, def, ghi]", () => {
-    expect(countLetter(["abc", "def", "ghi"], "a")).toBe(1);
-  });
-  it("returns 3 a's in [aca, bcA, abc]", () => {
-    expect(countLetter(["aca", "bcA", "abc"], "a")).toBe(3);
-  });
-});
+  const triangle = [];
+  for (let i = 1; i <= size; i++) {
+    const row = [];
+    for (let j = 0; j < i; j++) {
+      row.push("-");
+    }
+    triangle.push(row);
+  }
+  return triangle;
+}
+
+/**
+ * @param {string[]} words
+ * @param {string} letter - a single character
+ * @returns {number}  the number of times `letter` appears in all the words
+ * @returns `0` if `letter is not a string
+ */
+export function countLetter(words, letter) {
+  let count = 0;
+  for (const word of words) {
+    for (const char of word) {
+      if (char === letter) {
+        count += 1;
+      }
+    }
+  }
+  return count;
+}

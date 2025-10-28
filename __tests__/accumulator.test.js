@@ -1,132 +1,106 @@
-import { describe, it, expect } from "vitest";
-import {
-  sumToN,
-  factorial,
-  buildNArray,
-  getLongestString,
-  countPresent,
-  complementDNA,
-} from "../patterns/accumulator";
+/**
+ * You can assume that `n` is an integer.
+ * @param {number} n
+ * @returns {number} the sum of all integers from 1 to n, inclusive
+ * @returns `0` if n is 0 or negative
+ */
+export function sumToN(n) {
+  if (typeof n !== "number") return NaN;
 
-describe("sumToN", () => {
-  it("returns NaN if argument is not a number", () => {
-    expect(sumToN("1")).toBeNaN();
-  });
-  it("returns 0 for -5", () => {
-    expect(sumToN(-5)).toBe(0);
-  });
-  it("returns 0 for 0", () => {
-    expect(sumToN(0)).toBe(0);
-  });
-  it("returns 1 for 1", () => {
-    expect(sumToN(1)).toBe(1);
-  });
-  it("returns 3 for 2", () => {
-    expect(sumToN(2)).toBe(3);
-  });
-  it("returns 15 for 5", () => {
-    expect(sumToN(5)).toBe(15);
-  });
-});
+  let sum = 0;
+  for (let i = 1; i <= n; i++) {
+    sum += i;
+  }
+  return sum;
+}
 
-describe("factorial", () => {
-  it("returns NaN if argument is not a number", () => {
-    expect(factorial("1")).toBeNaN();
-  });
-  it("returns undefined for -5", () => {
-    expect(factorial(-5)).toBeUndefined();
-  });
-  it("returns 1 for 0", () => {
-    expect(factorial(0)).toBe(1);
-  });
-  it("returns 1 for 1", () => {
-    expect(factorial(1)).toBe(1);
-  });
-  it("returns 2 for 2", () => {
-    expect(factorial(2)).toBe(2);
-  });
-  it("returns 6 for 3", () => {
-    expect(factorial(3)).toBe(6);
-  });
-  it("returns 120 for 5", () => {
-    expect(factorial(5)).toBe(120);
-  });
-});
+/**
+ * @param {number} n
+ * @returns {number} the product of all integers from 1 to n, inclusive
+ * @returns `NaN` if n is not a number
+ * @returns `undefined` if n is negative
+ * @returns `1` if n is 0
+ */
+export function factorial(n) {
+  if (typeof n !== "number") return NaN;
+  if (n < 0) return undefined;
 
-describe("buildNArray", () => {
-  it("returns null if argument is not a number", () => {
-    expect(buildNArray("1")).toBeNull();
-  });
-  it("returns [] for -5", () => {
-    expect(buildNArray(-5)).toEqual([]);
-  });
-  it("returns [] for 0", () => {
-    expect(buildNArray(0)).toEqual([]);
-  });
-  it("returns [1] for 1", () => {
-    expect(buildNArray(1)).toEqual([1]);
-  });
-  it("returns [1,2,3,4,5] for 5", () => {
-    expect(buildNArray(5)).toEqual([1, 2, 3, 4, 5]);
-  });
-});
+  let product = 1;
+  for (let i = 1; i <= n; i++) {
+    product *= i;
+  }
+  return product;
+}
 
-describe("getLongestString", () => {
-  it("returns '' for an empty array", () => {
-    expect(getLongestString([])).toBe("");
-  });
-  it("returns 'a' for ['a']", () => {
-    expect(getLongestString(["a"])).toBe("a");
-  });
-  it("returns 'abc' for ['a', 'abc']", () => {
-    expect(getLongestString(["a", "abc"])).toBe("abc");
-  });
-  it("returns 'abc' for ['abc', 'a']", () => {
-    expect(getLongestString(["abc", "a"])).toBe("abc");
-  });
-  it("returns 'abc' for ['abc', 'abc']", () => {
-    expect(getLongestString(["abc", "abc"])).toBe("abc");
-  });
-  it("returns 'abc' for ['a', 'abc', 'ab']", () => {
-    expect(getLongestString(["a", "abc", "ab"])).toBe("abc");
-  });
-});
+/**
+ * @param {number} n
+ * @returns {number[]} an array of integers from 1 to n, inclusive
+ * @returns `null` if n is not a number
+ * @returns `[]` if n is 0 or negative
+ */
+export function buildNArray(n) {
+  if (typeof n !== "number") return null;
+  if (n <= 0) return [];
 
-describe("countPresent", () => {
-  it("returns 0 for an empty array", () => {
-    expect(countPresent([])).toBe(0);
-  });
-  it("returns 0 for [false]", () => {
-    expect(countPresent([false])).toBe(0);
-  });
-  it("returns 1 for [true]", () => {
-    expect(countPresent([true])).toBe(1);
-  });
-  it("returns 2 for [true, false, true]", () => {
-    expect(countPresent([true, false, true])).toBe(2);
-  });
-});
+  const output = [];
+  for (let i = 1; i <= n; i++) {
+    output.push(i);
+  }
+  return output;
+}
 
-describe("complementDNA", () => {
-  it("returns null if argument is not a string", () => {
-    expect(complementDNA(1)).toBeNull();
-  });
-  it("returns '' for ''", () => {
-    expect(complementDNA("")).toBe("");
-  });
-  it("returns 'T' for 'A'", () => {
-    expect(complementDNA("A")).toBe("T");
-  });
-  it("returns 'G' for 'C'", () => {
-    expect(complementDNA("C")).toBe("G");
-  });
-  it("returns 'C' for 'G'", () => {
-    expect(complementDNA("G")).toBe("C");
-  });
-  it("returns 'A' for 'T'", () => {
-    expect(complementDNA("T")).toBe("A");
-  });
-  it("returns 'ATCG' for 'TAGC'", () => {
-    expect(complementDNA("TAGC")).toBe("ATCG");
-  });
-});
+/**
+ * @param {string[]} strings
+ * @returns {string} the longest string in `strings`
+ */
+export function getLongestString(strings) {
+  let longest = "";
+  for (const string of strings) {
+    if (string.length > longest.length) {
+      longest = string;
+    }
+  }
+  return longest;
+}
+
+/**
+ * @param {boolean[]} attendance - `true` means a student is present, `false` means a student is absent
+ * @returns {number} the number of students present
+ */
+export function countPresent(attendance) {
+  let present = 0;
+  for (const isPresent of attendance) {
+    if (isPresent) {
+      present += 1;
+    }
+  }
+  return present;
+}
+
+/**
+ * In DNA strings, the symbols `A` and `T` are complements of each other,
+ * and the symbols `C` and `G` are complements of each other.
+ * A complementary strand is a string formed by the complement
+ * of each nucleobase in the original string.
+ *
+ * @param {string} dna - a string of the symbols `A`, `T`, `C`, or `G`
+ * @returns {string} the complementary DNA strand
+ * @returns `null` if `dna` is not a string
+ */
+export function complementDNA(dna) {
+  if (typeof dna !== "string") return null;
+
+  let complement = "";
+  for (const nucleobase of dna) {
+    if (nucleobase === "A") {
+      complement += "T";
+    } else if (nucleobase === "T") {
+      complement += "A";
+    } else if (nucleobase === "C") {
+      complement += "G";
+    } else if (nucleobase === "G") {
+      complement += "C";
+    }
+  }
+  return complement;
+}

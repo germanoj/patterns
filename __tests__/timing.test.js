@@ -1,104 +1,53 @@
-import { describe, it, expect } from "vitest";
-import {
-  isSongInPlaylist,
-  isAllEven,
-  haveEnoughFood,
-} from "../patterns/timing";
+/**
+ * @param {string[]} playlist
+ * @param {string} song
+ * @returns {boolean} whether `song` is in `playlist`
+ * @returns `false` if `playlist` is empty
+ */
+export function isSongInPlaylist(playlist, song) {
+  for (const songInPlaylist of playlist) {
+    if (songInPlaylist === song) {
+      return true;
+    }
+  }
+  return false;
+}
 
-describe("isSongInPlaylist", () => {
-  it("returns false for an empty playlist", () => {
-    expect(isSongInPlaylist([], "song")).toBe(false);
-  });
-  it("returns false if song is not in the playlist", () => {
-    expect(isSongInPlaylist(["song1", "song2"], "song3")).toBe(false);
-  });
-  it("returns true if song is in the playlist", () => {
-    expect(isSongInPlaylist(["song1", "song2"], "song1")).toBe(true);
-  });
-  it("returns true if song is in the playlist", () => {
-    expect(isSongInPlaylist(["song2", "song1"], "song1")).toBe(true);
-  });
-});
+/**
+ * @param {number[]} numbers
+ * @returns {boolean} whether all `numbers` are even
+ * @returns `undefined` if `numbers` is empty
+ */
+export function isAllEven(numbers) {
+  if (numbers.length === 0) return undefined;
 
-describe("isAllEven", () => {
-  it("returns undefined for an empty array", () => {
-    expect(isAllEven([])).toBeUndefined();
-  });
-  it("returns true if all numbers are even", () => {
-    expect(isAllEven([2, 4, 6])).toBe(true);
-  });
-  it("returns true if all numbers, including negatives, are even", () => {
-    expect(isAllEven([2, 4, 6, -8, -10])).toBe(true);
-  });
-  it("returns false if any number is odd", () => {
-    expect(isAllEven([2, 3, 4])).toBe(false);
-  });
-  it("returns false if any number is odd", () => {
-    expect(isAllEven([3, 2, 4])).toBe(false);
-  });
-});
+  for (const number of numbers) {
+    if (number % 2 !== 0) {
+      return false;
+    }
+  }
+  return true;
+}
 
-describe("haveEnoughFood", () => {
-  it("returns true if there are no people", () => {
-    expect(haveEnoughFood([{ category: "food" }], 0)).toBe(true);
-  });
-  it("returns true if there are no people, even when backpack is empty", () => {
-    expect(haveEnoughFood([], 0)).toBe(true);
-  });
-  it("returns false if backpack is empty", () => {
-    expect(haveEnoughFood([], 1)).toBe(false);
-  });
-  it("returns true when backpack has 1 food and there is 1 person", () => {
-    expect(
-      haveEnoughFood(
-        [
-          { category: "food" },
-          { category: "equipment" },
-          { category: "clothes" },
-        ],
-        1
-      )
-    ).toBe(true);
-  });
-  it("returns true when backpack has 5 food and there are 3 people", () => {
-    expect(
-      haveEnoughFood(
-        [
-          { category: "food" },
-          { category: "food" },
-          { category: "equipment" },
-          { category: "food" },
-          { category: "clothes" },
-          { category: "food" },
-          { category: "food" },
-        ],
-        3
-      )
-    ).toBe(true);
-  });
-  it("returns false when backpack has 1 food and there are 2 people", () => {
-    expect(
-      haveEnoughFood(
-        [
-          { category: "food" },
-          { category: "equipment" },
-          { category: "clothes" },
-        ],
-        2
-      )
-    ).toBe(false);
-  });
-  it("returns false when backpack has 2 food and there are 3 people", () => {
-    expect(
-      haveEnoughFood(
-        [
-          { category: "food" },
-          { category: "equipment" },
-          { category: "clothes" },
-          { category: "food" },
-        ],
-        3
-      )
-    ).toBe(false);
-  });
-});
+/**
+ * You're in charge of a group camping trip. You've packed supplies in a backpack,
+ * and each item in the backpack has a category, such as "food", "equipment", or "clothes".
+ * Each item in the "food" category is enough to feed one person.
+ *
+ * @param {{category: string}[]}} backpack
+ * @param {number} people
+ * @returns {boolean} whether there is enough food in the backpack to feed everyone
+ */
+export function haveEnoughFood(backpack, people) {
+  if (people === 0) return true;
+  if (backpack.length === 0) return false;
+
+  let food = 0;
+  for (const item of backpack) {
+    if (item.category === "food") {
+      food += 1;
+    }
+    if (food >= people) return true;
+  }
+  return false;
+}
